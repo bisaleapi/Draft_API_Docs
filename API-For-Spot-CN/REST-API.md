@@ -83,9 +83,9 @@ GET /api/market/symbols?symbol=ETH_BTC
     ]
 }
 
-GET /api/market/symbols?symbol=exsit_symbol
+GET /api/market/symbols?symbol=not-exist
 {
-    "code":10007,
+    "code":10010,
     "message":"invalid symbol",
     "data":{}
 }
@@ -200,5 +200,12 @@ GET /api/market/info?type=ETH
             // more data
         ]
     }
+}
+
+GET /api/market/info?type=not-exist
+{
+    "code":10011,
+    "message":"invalid market type",
+    "data":{}
 }
 ```
