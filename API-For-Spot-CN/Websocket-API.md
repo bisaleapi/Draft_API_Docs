@@ -38,14 +38,14 @@ websocket请求的基础字段如下
 
 响应的字段如下
 
-| 参数名  | 类型   | 描述                                       | 默认值 |
-| ------- | ------ | ------------------------------------------ | ------ |
-| code    | int    | 返回码，0:无错误，其他有错误，见错误码文档 |        |
-| message | string | 响应消息，无错误返回ok                     |        |
-| id      | string | 客户端请求id                               |        |
-| channel | string | 请求channel,数据类型                       |        |
-| ts      | int64  | 服务器时间                                 |        |
-| data    | object | 返回数据                                   |        |
+| 参数名  | 类型   | 描述                                           | 默认值 |
+| ------- | ------ | ---------------------------------------------- | ------ |
+| code    | int    | 返回码，20000:成功，其他有错误，详见错误码文档 |        |
+| message | string | 响应消息，成功返回ok                           |        |
+| id      | string | 客户端请求id                                   |        |
+| channel | string | 请求channel,数据类型                           |        |
+| ts      | int64  | 服务器时间                                     |        |
+| data    | object | 返回数据                                       |        |
 
 示例：
 
@@ -53,7 +53,7 @@ websocket请求的基础字段如下
 
 ```json
 {
-    "code":0,
+    "code":20000,
     "message":"ok",
     "id":"0",
     "channel":"market.*.*.*",
@@ -113,7 +113,7 @@ market.$symbol.kline.$period
 
 ```json
 {
-    "code":0,
+    "code":20000,
     "message":"ok",
     "id":"0",
     "channel":"market.eth_btc.kline.1min",
@@ -172,7 +172,7 @@ market.$symbol.trade.detail
 
 ```json
 {
-    "code":0,
+    "code":20000,
     "message":"ok",
     "id":"0",
     "channel":"market.eth_btc.trade.detail",
@@ -224,7 +224,7 @@ market.$symbol.depth.$type
 
 ```json
 {
-    "code":0,
+    "code":20000,
     "message":"ok",
     "id":"0",
     "channel":"market.eth_btc.depth.depth0",
@@ -269,7 +269,7 @@ market.all.change.detail
 
 ```json
 {
-    "code":0,
+    "code":20000,
     "message":"ok",
     "id":"0",
     "channel":"market.all.change.detail",
