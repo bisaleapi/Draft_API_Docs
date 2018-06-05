@@ -32,9 +32,36 @@ websocket请求的基础字段如下
 
 | 参数名  | 是否必须 | 类型   | 描述                                    | 取值          |
 | ------- | -------- | ------ | --------------------------------------- | ------------- |
-| event   | true     | string | 订阅，取消订阅，请求响应                | sub,unsub,req |
-| channel | true     | string | 消息类别                                | 见下面文档    |
-| id      | true     | string | 请求的id,由客户端自己生成，响应原样返回 |               |
+| action   | true     | string | 订阅，取消订阅，请求响应                | sub,unsub,req |
+| function | true     | string | 消息类别                                | 见下面文档    |
+| id      | true     | string | 请求的id,由客户端自己生成，响应原样返回 | 保证唯一性    |
+
+```json
+{
+    "action":"req",
+    "function":"market.eth_btc.kline.1min",
+    "id":"0",
+    "param":{
+        "from":0,
+        "to":0
+    }
+}
+
+
+
+{
+    "action":"req",
+    "function":"trade.eth_btc.place_order",
+    "id":"0",
+    "param":{
+        "from":0,
+        "to":0
+    }
+}
+
+```
+
+
 
 响应的字段如下
 
@@ -43,7 +70,7 @@ websocket请求的基础字段如下
 | code    | int    | 返回码，20000:成功，其他有错误，详见错误码文档 |        |
 | message | string | 响应消息，成功返回ok                           |        |
 | id      | string | 客户端请求id                                   |        |
-| channel | string | 请求channel,数据类型                           |        |
+| function | string | 请求function,数据类型                           |        |
 | ts      | int64  | 服务器时间                                     |        |
 | data    | object | 返回数据                                       |        |
 
@@ -56,7 +83,7 @@ websocket请求的基础字段如下
     "code":20000,
     "message":"ok",
     "id":"0",
-    "channel":"market.*.*.*",
+    "function":"market.*.*.*",
     "ts":1526636776,
     "data":[...]
 }
@@ -67,9 +94,9 @@ websocket请求的基础字段如下
 ```json
 {
     "code":10003,
-    "message":"不支持的Channel",
+    "message":"不支持的function",
     "id":"0",
-    "channel":"market.*.*.*",
+    "function":"market.*.*.*",
     "ts":1526636776,
     "data":[]
 }
@@ -86,7 +113,7 @@ websocket请求的基础字段如下
 | from   | false    | int64 | 开始时间 | 当前服务器时刻       |
 | to     | false    | int64 | 结束时间 | 当前服务器时刻减一天 |
 
-channel 字段格式如下:
+function 字段格式如下:
 
 ```Json
 market.$symbol.kline.$period
@@ -101,11 +128,9 @@ market.$symbol.kline.$period
 
 ```json
 {
-    "event":"req",
-    "channel":"market.eth_btc.kline.1min",
-    "id":"0",
-    "from":0,
-    "to":0
+    "action":"req",
+    "function":"market.eth_btc.kline.1min",
+    "id":"0"
 }
 ```
 
@@ -116,7 +141,7 @@ market.$symbol.kline.$period
     "code":20000,
     "message":"ok",
     "id":"0",
-    "channel":"market.eth_btc.kline.1min",
+    "function":"market.eth_btc.kline.1min",
     "ts":1526454367,
     "data":[
         {
@@ -148,7 +173,7 @@ market.$symbol.kline.$period
 
 ### 1.2 交易明细(trade detail)
 
-channel 字段格式如下:
+function 字段格式如下:
 
 ```json
 market.$symbol.trade.detail
@@ -162,8 +187,8 @@ market.$symbol.trade.detail
 
 ```json
 {
-    "event":"req",
-    "channel":"market.eth_btc.trade.detail",
+    "action":"req",
+    "function":"market.eth_btc.trade.detail",
     "id":"0"
 }
 ```
@@ -175,7 +200,7 @@ market.$symbol.trade.detail
     "code":20000,
     "message":"ok",
     "id":"0",
-    "channel":"market.eth_btc.trade.detail",
+    "function":"market.eth_btc.trade.detail",
     "ts":1526525246,
     "data":[
         {
@@ -199,7 +224,7 @@ market.$symbol.trade.detail
 
 ### 1.3 获取市场深度全量(market depth)
 
-channel 字段格式如下:
+function 字段格式如下:
 
 ```json
 market.$symbol.depth.$type
@@ -214,8 +239,8 @@ market.$symbol.depth.$type
 
 ```json
 {
-    "event":"req",
-    "channel":"market.eth_btc.depth.depth0",
+    "action":"req",
+    "function":"market.eth_btc.depth.depth0",
     "id":"0"
 }
 ```
@@ -227,7 +252,7 @@ market.$symbol.depth.$type
     "code":20000,
     "message":"ok",
     "id":"0",
-    "channel":"market.eth_btc.depth.depth0",
+    "function":"market.eth_btc.depth.depth0",
     "ts":1526528848,
     "data":{
         "version":20433,
@@ -249,7 +274,7 @@ market.$symbol.depth.$type
 
 ### 1.4 获取全市场行情(market.all.change.detail)
 
-channel 字段取值如下:
+function 字段取值如下:
 
 ```json
 market.all.change.detail
@@ -259,8 +284,8 @@ market.all.change.detail
 
 ```json
 {
-    "event":"req",
-    "channel":"market.all.change.detail",
+    "action":"req",
+    "function":"market.all.change.detail",
     "id":"0"
 }
 ```
@@ -272,7 +297,7 @@ market.all.change.detail
     "code":20000,
     "message":"ok",
     "id":"0",
-    "channel":"market.all.change.detail",
+    "function":"market.all.change.detail",
     "ts":1526537733,
     "data":{
         "BTC":[
@@ -337,8 +362,8 @@ market.all.change.detail
 
 ```Json
 {
-    "event":"sub",
-    "channel":"market.$symbol.kline.$period",
+    "action":"sub",
+    "function":"market.$symbol.kline.$period",
     "id":"0"
 }
 ```
@@ -352,8 +377,8 @@ market.all.change.detail
 
 ```json
 {
-    "event":"sub",
-    "channel":"market.eth_btc.kline.1min",
+    "action":"sub",
+    "function":"market.eth_btc.kline.1min",
     "id":"0"
 }
 ```
@@ -362,7 +387,7 @@ market.all.change.detail
 
 ```json
 {
-    "channel":"market.eth_btc.kline.1min",
+    "function":"market.eth_btc.kline.1min",
     "ts":1526531833,
     "data":{
         "symbol":"ETH_BTC",
@@ -385,8 +410,8 @@ market.all.change.detail
 
 ```json
 {
-    "event":"sub",
-    "channel":"market.$symbol.trade.detail",
+    "action":"sub",
+    "function":"market.$symbol.trade.detail",
     "id":"0"
 }
 ```
@@ -399,8 +424,8 @@ market.all.change.detail
 
 ```json
 {
-    "event":"sub",
-    "channel":"market.eth_btc.trade.detail",
+    "action":"sub",
+    "function":"market.eth_btc.trade.detail",
     "id":"0"
 }
 ```
@@ -409,7 +434,7 @@ market.all.change.detail
 
 ```json
 {
-    "channel":"market.eth_btc.trade.detail",
+    "function":"market.eth_btc.trade.detail",
     "ts":1526550718622,
     "data":{
         "tid":1980928,
@@ -430,8 +455,8 @@ market.all.change.detail
 
 ```Json
 {
-    "event":"sub",
-    "channel":"market.$symbol.depth.$type",
+    "action":"sub",
+    "function":"market.$symbol.depth.$type",
     "id":"0"
 }
 ```
@@ -445,8 +470,8 @@ market.all.change.detail
 
 ```Json
 {
-    "event":"sub",
-    "channel":"market.eth_btc.depth.depth0",
+    "action":"sub",
+    "function":"market.eth_btc.depth.depth0",
     "id":"0"
 }
 ```
@@ -455,7 +480,7 @@ market.all.change.detail
 
 ```Json
 {
-    "channel":"market.eth_btc.depth.depth0",
+    "function":"market.eth_btc.depth.depth0",
     "ts":1526610972794,
     "version":28,
     "data":{
@@ -477,8 +502,8 @@ market.all.change.detail
 
 ```Json
 {
-    "event":"sub",
-    "channel":"market.$symbol.change.detail",
+    "action":"sub",
+    "function":"market.$symbol.change.detail",
     "id":"0"
 }
 ```
@@ -491,8 +516,8 @@ market.all.change.detail
 
 ```json
 {
-    "event":"sub",
-    "channel":"market.eth_btc.change.detail",
+    "action":"sub",
+    "function":"market.eth_btc.change.detail",
     "id":"0"
 }
 ```
@@ -501,7 +526,7 @@ market.all.change.detail
 
 ```Json
 {
-    "channel":"market.eth_btc.change.detail",
+    "function":"market.eth_btc.change.detail",
     "ts":1526611314638,
     "data":{
         "symbol":"ETH_BTC",
@@ -522,8 +547,8 @@ market.all.change.detail
 
 ```Json
 {
-    "event":"unsub",
-    "channel":"market.*.*.*",
+    "action":"unsub",
+    "function":"market.*.*.*",
     "id":"0"
 }
 ```
