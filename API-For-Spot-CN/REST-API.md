@@ -209,3 +209,64 @@ GET /api/market/info?type=not-exist
     "data":{}
 }
 ```
+
+#### /api/market/kline 获取k线数据
+请求参数：
+
+|参数名|是否必须|类型|描述|取值|默认值|
+|-------|------|------|---------------------------------------|-------------|-----------|
+|symbol|true|string|交易对名称||ETH_BTC|
+|period|false|string|k线类型|1min|1min,5min,15min,30min,1hour,2hour,4hour,1day,1week,1month,1year|
+|size|false|integer|获取数量|200|[1,1000]|
+
+响应数据：
+
+| 参数名  | 是否必须 | 类型   | 描述                                    |
+| ------- | -------- | ------ | --------------------------------------- |
+| code   | true     | int | 返回的状态码，20000表示成功，其它表示失败           |
+| message   | true  | string | 返回的状态信息，OK表示成功，其它表示具体错误信息   |
+| data   | true  | object | k线数据，具体看下面例子   |
+
+data说明：
+
+```json
+"data": {
+    "description":"market.ETH_BTC.kline.1day",//k线数据类型描述
+    "timestamp":1528444917,//响应生成时间点，单位：毫秒
+    "kline_data": [
+        {
+            "id": 1527552000, //k线id
+            "open_price": 8249, //开盘价
+            "high_price": 9557, //最高价
+            "low_price": 8249, //最低价
+            "close_price": 9080, //收盘价
+            "amount": 14973.5, //成交量
+            "vloume":83921438.80043, //成交额, 即 sum(每一笔成交价 * 该笔的成交量)
+        }
+    ]
+}
+
+``` 
+响应示例说明：
+
+```json
+GET /api/market/kline?symbol=ETh_BTC&period=1day&size=100
+{
+    "code":20000,
+    "message":"OK",
+    "data":[
+        {
+            "description": "market.ETH_BTC.kline.1day",
+		      "time_stamp": 1528446201,
+            "kline_data":[
+            ]
+        }
+        // more data
+    ]
+}
+
+
+
+
+
+```
