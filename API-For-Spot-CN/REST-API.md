@@ -213,7 +213,7 @@ GET /api/market/info?type=not-exist
 #### /api/market/kline 获取k线数据
 请求参数：
 
-|参数名|是否必须|类型|描述|取值|默认值|
+|参数名|是否必须|类型|描述|默认值|取值|
 |-------|------|------|---------------------------------------|-------------|-----------|
 |symbol|true|string|交易对名称||ETH_BTC|
 |period|false|string|k线类型|1min|1min,5min,15min,30min,1hour,2hour,4hour,1day,1week,1month,1year|
